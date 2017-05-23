@@ -14,6 +14,11 @@ sendWFMessage = (robot, res, WFAmount) ->
   oldWFAmount = parseInt(robot.brain.get('wf-' + subject)) or 0
   newWFAmount = oldWFAmount + WFAmount
   WFText = 'not changed'
+  if Math.abs(newWFAmount) == 1
+    WFPlural = 'Warm Fuzzy'
+  else
+    WFPlural = 'Warm Fuzzies'
+    
   robot.brain.set 'wf-' + subject, newWFAmount
   if WFKeys.indexOf('wf-' + subject) < 0
     WFKeys.push 'wf-' + subject
@@ -22,7 +27,10 @@ sendWFMessage = (robot, res, WFAmount) ->
     WFText = 'increased to {amount}'.replace('{amount}', newWFAmount.toString())
   else if oldWFAmount > newWFAmount
     WFText = 'decreased to {amount}'.replace('{amount}', newWFAmount.toString())
-  res.send '{subject}\'s has {WFText} warm fuzzy.'.replace('{subject}', subject).replace('{WFText}', WFText)
+  res.send '{subject}\'s has {WFText} {WFPlural}.'
+    .replace('{subject}', subject)
+    .replace('{WFText}', WFText)
+    .replace('{WFPlural}', WFPlural)
   return
 
 module.exports = (robot) ->

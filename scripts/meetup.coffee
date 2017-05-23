@@ -28,8 +28,6 @@ module.exports = (robot) ->
 		meetupBrain = {announced:[],reminded:[]}
 	
 	setInterval () ->
-		console.log 'Checking for new meetups'
-		console.log meetupBrain
 		
 		process.env.TZ = 'UTC'
 		d = new Date();
