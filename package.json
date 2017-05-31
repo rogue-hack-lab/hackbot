@@ -5,6 +5,7 @@
   "author": "RHL",
   "description": "Hack all the things!",
   "dependencies": {
+    "coffee-script": "^1.12.6",
     "hubot": "^2.19.0",
     "hubot-auth": "^2.1.0",
     "hubot-diagnostics": "0.0.1",
@@ -21,10 +22,29 @@
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^4.3.4",
+    "jest": "^20.0.4",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13"
   },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
   "engines": {
     "node": "0.10.x"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "coffee"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.(js|coffee)?(x)",
+      "**/?(*.)(spec|test).(js|coffee)"
+    ],
+    "transform": {
+      ".*":"<rootDir>/test/preprocessor.js"
+    }
   }
 }
