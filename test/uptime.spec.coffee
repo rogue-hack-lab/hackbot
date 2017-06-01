@@ -1,9 +1,7 @@
 Helper = require('hubot-test-helper')
-chai = require 'chai'
-
-expect = chai.expect
-
 helper = new Helper('../scripts/uptime.coffee')
+
+expect = require('chai').expect
 
 describe 'uptime', ->
   beforeEach ->
