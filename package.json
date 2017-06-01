@@ -34,6 +34,7 @@
     "mocha": "^3.4.2"
   },
   "scripts": {
-    "test": "mocha --compilers \"coffee:coffee-script/register\" test/*.coffee"
-   }
+    "test": "mocha --compilers \"coffee:coffee-script/register\" test/*.coffee",
+    "test:watch": "mocha --watch --compilers \"coffee:coffee-script/register\" test/*.coffee"
+  }
 }
