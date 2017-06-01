@@ -1,0 +1,1 @@
+module.exports = ['Are you still there?', 'Target lost', 'Searching']
