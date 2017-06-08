@@ -10,9 +10,6 @@ describe 'uptime', ->
   afterEach ->
     @room.destroy()
 
-  it 'seconds', ->
-    @room.user.say('kevin', '@hubot uptime').then =>
-      expect(@room.messages).to.eql [
-        ['kevin', '@hubot uptime']
-        ['hubot', 'I\'ve been sentient for ']
-      ]
+  it 'asking hubot for uptime results in a response', ->
+    @room.user.say('user', '@hubot uptime').then =>
+      expect(@room.messages).to.deep.include ['hubot', 'I\'ve been sentient for ']

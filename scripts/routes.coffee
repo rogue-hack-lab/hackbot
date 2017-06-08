@@ -1,5 +1,5 @@
 # Description:
-#   routs for making hacbot do things
+#   routes for making hackbot do things
 #
 # Notes:
 #   
@@ -8,6 +8,7 @@ module.exports = (robot) ->
   
   robot.router.post '/hubot/announce/:room', (req, res) ->
     room   = req.params.room
+    
     robot.messageRoom room, "*Announcement:*\n>>> #{req.body.msg}"
     res.send 'OK'
   

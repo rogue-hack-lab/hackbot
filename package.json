@@ -29,10 +29,10 @@
     "node": "0.10.x"
   },
   "devDependencies": {
-    "chai": "^4.0.0",
-    "coffee-script": "^1.12.6",
-    "hubot-test-helper": "^1.5.1",
-    "mocha": "^3.4.2"
+    "chai": "latest",
+    "coffee-script": "latest",
+    "hubot-test-helper": "latest",
+    "mocha": "latest"
   },
   "scripts": {
     "test": "mocha --compilers \"coffee:coffee-script/register\" test/*.coffee || true",
