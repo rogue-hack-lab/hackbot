@@ -17,8 +17,14 @@ describe 'brain-surgery.coffee', ->
 
   afterEach ->
     @room.destroy()
-  
-  it 'requires that a user has brain-surgeon role to operate on hubot'
-    # @room.user.say('user', '@hubot brain get').then =>
-    #   delay 1000, ->
-    #     expect(@room.messages).to.deep.include ['hubot','@user: Access Denied. You need role `brain-surgeon` to perform this action.']
+
+  context '@notaSurgeon is not a brain-surgeon and attempts to view the robot brain', ->
+    beforeEach ->
+      @room.user.say('@notasurgeon', '@hubot brain')
+    it "tells @notaSurgeon that they are not allowed to access robot's brain"
+
+  context '@aSurgeon is a brain-surgeon and attempts to view the robot brain', ->
+    it 'checks that @aSurgeon has the role "brain-surgeon"'
+      # @room.user.say('user', '@hubot brain get').then =>
+      #   delay 1000, ->
+      #     expect(@room.messages).to.deep.include ['hubot','@user: Access Denied. You need role `brain-surgeon` to perform this action.']
