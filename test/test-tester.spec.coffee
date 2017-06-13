@@ -7,20 +7,23 @@ expect = require('chai').expect
 describe 'test-tester scripts - for testing how to setup tests', ->
 	beforeEach ->
 		@room = helper.createRoom()
-		@room.robot.brain.userForName 'testuser',
+		@testuser = @room.robot.brain.userForId 'testuser',
 			name: 'testuser'
-			id: 1    
-		console.log @room.robot.brain.data.users	
+			id: process.env.HUBOT_AUTH_ADMIN  
+
 	afterEach ->
 		@room.destroy()
+	
 	context '', ->
 		beforeEach ->
 			helper.constructor('../node_modules/hubot-auth/index.coffee')
 			
 		it 'loads hubot-auth for testing',->
+			auth = @room.robot.auth
+			@room.user.say('testuser','hubot what roles do I have')
+				.then => @room.user.say('testuser','hubot testuser has brain-surgeon role')
+					.then => console.log @room.messages
 			#@room.robot.auth.hasRole(@testUser, 'brain-surgeon')
-			# @auth = @room.robot.auth
-			console.log(@testuser)
 			
 		
 		# expect(@room.robot.auth).not.to.be.undefined
