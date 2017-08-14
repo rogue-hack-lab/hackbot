@@ -23,7 +23,8 @@
     "hubot-slack": "^4.3.4",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
-    "os": "^0.1.1"
+    "os": "^0.1.1",
+    "twilio": "^3.6.1"
   },
   "engines": {
     "node": "0.10.x"
@@ -32,10 +33,12 @@
     "chai": "^4.0.0",
     "coffee-script": "^1.12.6",
     "hubot-test-helper": "^1.5.1",
-    "mocha": "^3.4.2"
+    "mocha": "^3.4.2",
+    "nodemon": "^1.11.0"
   },
   "scripts": {
     "test": "mocha --compilers \"coffee:coffee-script/register\" test/*.coffee",
-    "test:watch": "mocha --watch --compilers \"coffee:coffee-script/register\" test/*.coffee"
+    "test:watch": "mocha --watch --compilers \"coffee:coffee-script/register\" test/*.coffee",
+    "start-dev": "source ./environment.env && ./node_modules/.bin/nodemon -e js,coffee,litcoffee --watch scripts --ignore ./test -x ./bin/hubot -a slack"
   }
 }
