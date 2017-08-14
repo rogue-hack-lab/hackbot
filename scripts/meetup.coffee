@@ -21,11 +21,10 @@ generateReminder = (meetup) ->
 
 module.exports = (robot) ->
 	meetupURL = 'https://api.meetup.com/rogue-hack-lab/events?page=4'
-	eventsRoom = '#general'
-	meetupBrain = robot.brain.get 'meetup'
+	eventsRoom = process.env.MEETUP_ANNOUNCE_ROOM
 	
-	if meetupBrain is null
-		meetupBrain = {announced:[],reminded:[]}
+	robot.brain.on 'loaded', (data) ->
+		meetupBrain = robot.brain.get('meetup') or {announced:[],reminded:[]}
 	
 	setInterval () ->
 		
