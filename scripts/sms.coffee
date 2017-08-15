@@ -15,6 +15,8 @@ client = new twilio(accountSid, authToken);
 
 _ = require('lodash');
 
+sms = null
+
 module.exports = (robot) ->
 
 	robot.brain.on 'loaded', (data) ->

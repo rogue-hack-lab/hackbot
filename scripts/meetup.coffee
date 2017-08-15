@@ -9,6 +9,8 @@
 moment = require('moment-timezone')
 moment.locale 'en-use'
 
+meetupBrain = null
+
 generateAnnouncement = (meetup) ->
 	eventTime = moment(meetup.time).tz('America/Los_Angeles').format('dddd MMMM Do [at] h:mma')
 	message = ":loudspeaker: *Upcoming meetup!*\n#{meetup.name} is on #{eventTime}" + ( if meetup.venue? then " located at #{meetup.venue.name} " else '' ) + "\n#{meetup.link}"
