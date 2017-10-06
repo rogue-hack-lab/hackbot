@@ -1,20 +1,26 @@
 # Description:
-#   routs for making hacbot do things
+#   keep track of $$ from paypal
 #
 # Notes:
-#
-#   
+#   https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/
+#   test with `curl -X POST --data "data" http://rhl:password@localhost:8080/hubot/treasury/ipn
+
 
 room = process.env.TREASURY_GROUP
 
 module.exports = (robot) ->
   
   robot.router.post '/hubot/treasury/ipn', (req, res) ->
-    treasury = robot.brain.get('treasury') or { paypal: 0 }
-    treasury.paypal = parseFloat(treasury.paypal) + parseFloat(req.body.mc_gross)
-    robot.brain.set 'treasury', treasury
-    robot.messageRoom room, "#{req.body.first_name} #{req.body.last_name} (#{req.body.payer_email}) sent $#{req.body.mc_gross} to #{req.body.receiver_email}"
-    robot.adapter.client.web.groups.setTopic(room, "*Current balances* Paypal: $#{treasury.paypal}")
+    switch req.body.txn_type
+      when 'subscr_signup'
+        robot.messageRoom room, "#{req.body.first_name} #{req.body.last_name} (#{req.body.payer_email}) signed up for a $#{req.body.option_selection1} membership"
+      when 'send_money'
+        robot.messageRoom room, "#{req.body.first_name} #{req.body.last_name} (#{req.body.payer_email}) just sent a onetime payment of $#{req.body.mc_gross}"
+        updateBalance robot,req
+      when 'subscr_payment'
+        robot.messageRoom room, "#{req.body.first_name} #{req.body.last_name} (#{req.body.payer_email}) just sent $#{req.body.mc_gross} for their recuring subscription"
+        updateBalance robot,req
+      else robot.messageRoom room, "Excuse me.. I dont know how to deal with the IPN type of #{req.body.txn_type}"
     res.send 'OK'
 
   robot.respond /spend \$(.*) from paypal(.*)/i, (res) ->
@@ -44,3 +50,9 @@ module.exports = (robot) ->
       robot.adapter.client.web.groups.setTopic(res.message.room, "*Current balances* Paypal: $#{treasury.paypal}")
     else
       res.send 'not autorised in this room'
+
+updateBalance = (robot, req) ->
+  treasury = robot.brain.get('treasury') or { paypal: 0 }
+  treasury.paypal = parseFloat(treasury.paypal) + parseFloat(req.body.mc_gross) - parseFloat(req.body.mc_fee)
+  robot.brain.set 'treasury', treasury
+  robot.adapter.client.web.groups.setTopic(room, "*Current balances* Paypal: $#{treasury.paypal}")
