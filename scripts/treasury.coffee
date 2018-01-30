@@ -26,9 +26,9 @@ module.exports = (robot) ->
   robot.respond /spend \$(.*) from paypal(.*)/i, (res) ->
     if res.message.room == room
       treasury = robot.brain.get('treasury') or { paypal: 0 }
-      treasury.paypal = parseFloat(treasury.paypal) - parseFloat(res.match[1])
+      treasury.paypal = parseFloat(treasury.paypal) - parseFloat(res.match[1])*100
       robot.brain.set 'treasury', treasury
-      robot.adapter.client.web.groups.setTopic(res.message.room, "*Current balances* Paypal: $#{treasury.paypal}")
+      robot.adapter.client.web.groups.setTopic(res.message.room, "*Current balances* Paypal: $#{treasury.paypal/100}")
     else
       res.send 'not autorised in this room'
 
@@ -45,14 +45,14 @@ module.exports = (robot) ->
   robot.respond /set paypal balance to \$(.*)/i, (res) ->
     if res.message.room == room
       treasury = robot.brain.get('treasury') or { paypal: 0 }
-      treasury.paypal = parseFloat(res.match[1])
+      treasury.paypal = parseFloat(res.match[1])*100
       robot.brain.set 'treasury', treasury
-      robot.adapter.client.web.groups.setTopic(res.message.room, "*Current balances* Paypal: $#{treasury.paypal}")
+      robot.adapter.client.web.groups.setTopic(res.message.room, "*Current balances* Paypal: $#{treasury.paypal/100}")
     else
       res.send 'not autorised in this room'
 
 updateBalance = (robot, req) ->
   treasury = robot.brain.get('treasury') or { paypal: 0 }
-  treasury.paypal = parseFloat(treasury.paypal) + parseFloat(req.body.mc_gross) - parseFloat(req.body.mc_fee)
+  treasury.paypal = parseFloat(treasury.paypal) + parseFloat(req.body.mc_gross)*100 - parseFloat(req.body.mc_fee)*100
   robot.brain.set 'treasury', treasury
-  robot.adapter.client.web.groups.setTopic(room, "*Current balances* Paypal: $#{treasury.paypal}")
+  robot.adapter.client.web.groups.setTopic(room, "*Current balances* Paypal: $#{treasury.paypal/100}")
