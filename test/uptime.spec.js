@@ -1,5 +1,5 @@
 const Helper = require('hubot-test-helper');
-const helper = new Helper('../scripts/uptime.coffee');
+const helper = new Helper('../scripts/uptime.js');
 
 const { expect } = require('chai');
 
