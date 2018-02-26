@@ -37,8 +37,8 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "test": "mocha --compilers \"coffee:coffee-script/register\" test/*.coffee",
-    "test:watch": "mocha --watch --compilers \"coffee:coffee-script/register\" test/*.coffee",
+    "test": "mocha --compilers \"coffee:coffee-script/register\" test/*",
+    "test:watch": "mocha --watch --compilers \"coffee:coffee-script/register\" test/*",
     "start-dev": "source ./environment.env && ./node_modules/.bin/nodemon -e js,coffee,litcoffee --watch scripts --ignore ./test -x ./bin/hubot -a slack"
   }
 }
