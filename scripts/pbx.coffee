@@ -22,7 +22,7 @@ module.exports = (robot) ->
 	robot.brain.on 'loaded', (data) ->
 		sms = robot.brain.get('sms') or {}
 
-	robot.router.post '/hubot/sms', (req, res) ->
+	robot.router.post '/hubot/pbx/sms', (req, res) ->
 		res.send 'OK'
 		addToThread robot,req.body
 
@@ -37,6 +37,14 @@ module.exports = (robot) ->
 				robot.adapter.client.web.reactions.add('tada', {channel: msg.envelope.message.room, timestamp: msg.envelope.message.id})
 		else
 			msg.reply "Oops... you are not in an active SMS thread!"
+
+	robot.router.post '/hubot/pbx/event', (req, res) ->
+		res.send 'OK'
+		robot.messageRoom phoneRoom, "#{req.body.From} requested to be let in"
+
+	robot.router.post '/hubot/pbx/vm', (req, res) ->
+		res.send 'OK'
+		robot.messageRoom phoneRoom, "#{req.body.From} left the following VM: #{req.body.RecordingUrl}"
 
 addToThread = (robot, body) ->	
 	if body.From of sms
