@@ -30,7 +30,7 @@ module.exports = (robot) ->
 		if isThread msg
 			client.messages.create
 				body: msg.match[1]
-				to: '+1' + phoneFromThread msg
+				to: phoneFromThread msg
 				from: fromNumber
 			.then (message) ->
 				robot.logger.debug 'Twilio message ' + message.sid + ' sent.'
