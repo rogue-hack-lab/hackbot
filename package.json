@@ -5,19 +5,17 @@
   "author": "RHL",
   "description": "Hack all the things!",
   "dependencies": {
-    "hubot": "^2.19.0",
+    "hubot": "^3.1.1",
     "hubot-auth": "^2.1.0",
-    "hubot-diagnostics": "0.0.1",
-    "hubot-friendly": "0.0.1",
+    "hubot-diagnostics": "1.0.0",
     "hubot-google-images": "^0.2.6",
     "hubot-google-translate": "^0.2.0",
-    "hubot-help": "^0.2.0",
-    "hubot-maps": "0.0.2",
+    "hubot-help": "^1.0.1",
+    "hubot-maps": "0.0.3",
     "hubot-pugme": "^0.1.0",
     "hubot-reboot": "^1.2.0",
-    "hubot-redis-brain": "0.0.3",
-    "hubot-robotstuff": "0.0.1",
-    "hubot-rules": "^0.1.1",
+    "hubot-redis-brain": "1.0.0",
+    "hubot-rules": "^1.0.0",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^4.3.4",
@@ -30,11 +28,11 @@
     "node": "0.10.x"
   },
   "devDependencies": {
-    "chai": "^4.0.0",
+    "chai": "4.2.0",
     "coffee-script": "^1.12.6",
-    "hubot-test-helper": "^1.5.1",
-    "mocha": "^3.4.2",
-    "nodemon": "^1.11.0"
+    "hubot-test-helper": "1.9.0",
+    "mocha": "5.2.0",
+    "nodemon": "1.18.4"
   },
   "scripts": {
     "test": "mocha --compilers \"coffee:coffee-script/register\" test/*",
