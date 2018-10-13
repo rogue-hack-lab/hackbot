@@ -56,4 +56,23 @@ describe('warm fuzzies', () => {
       ]);
     });
   });
+
+  context('asking for the warm fuzzies list', function() {
+    beforeEach(function() {
+      return co(function*() {
+        this.room.robot.brain.set('warmFuzzy', {
+          '@bob': 2,
+          '@alice': 3
+        });
+        yield this.room.user.say('bob', '@hubot warm fuzzy list');
+      }.bind(this));
+    });
+
+    it("should reply with a list of each user's warm fuzzies", function() {
+      expect(this.room.messages).to.eql([
+        ["bob", "@hubot warm fuzzy list"],
+        ["hubot", "@bob = 2\n@alice = 3\n"]
+      ]);
+    });
+  });
 });
