@@ -21,6 +21,11 @@ describe('warm fuzzies', () => {
       }.bind(this));
     });
 
+    it("should increase the recipient's warm fuzzies", function() {
+      const warmFuzzy = this.room.robot.brain.get('warmFuzzy');
+      expect(warmFuzzy['@bob']).to.eql(1);
+    });
+
     it('should reply with the new warm fuzzy count', function() {
       expect(this.room.messages).to.eql([
         ["bob", "Darth Vader really was the chosen one, in the end."],
@@ -36,6 +41,11 @@ describe('warm fuzzies', () => {
         yield this.room.user.say('chad', 'Jar Jar is my favorite Star Trek character.');
         yield this.room.user.say('alice', '@chad--');
       }.bind(this));
+    });
+
+    it("should decrease the recipient's warm fuzzies", function() {
+      const warmFuzzy = this.room.robot.brain.get('warmFuzzy');
+      expect(warmFuzzy['@chad']).to.eql(-1);
     });
 
     it('should reply with the new warm fuzzy count', function() {
