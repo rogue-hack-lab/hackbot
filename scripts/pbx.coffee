@@ -11,7 +11,11 @@ fromNumber = process.env.TWILIO_FROM_NUMBER
 phoneRoom = process.env.TWILIO_ROOM
 
 twilio = require('twilio');
-client = new twilio(accountSid, authToken);
+
+if accountSid? and authToken?
+	client = new twilio(accountSid, authToken);
+else
+	console.warn "WARNING: Twilio credentials are not set. Plugin 'pbx' will not work correctly."
 
 _ = require('lodash');
 
