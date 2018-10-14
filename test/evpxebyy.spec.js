@@ -54,7 +54,7 @@ describe('an easter egg', () => {
     // other channels. Technically the hubot-test-helper doesn't realistically
     // test shared brains between channels, which is why we're explicitly
     // testing the state.
-    it("should trigger separate responses in each respective channel", function() {
+    it("should store messages separaately for each channel", function() {
       const state = this.room.robot.brain.get(stateKey);
       const otherState = this.otherRoom.robot.brain.get(stateKey);
 
