@@ -16,26 +16,29 @@ stateKey = "evpxebby"
 
 module.exports = (robot) ->
   robot.hear new RegExp(words.join("|"), "i"), (msg) ->
+    room = msg.message.room
     userId = msg.message.user.id
     text = msg.message.text
-    state = robot.brain.get(stateKey) || {n: 0, chain: []}
+    state = robot.brain.get(stateKey) || {}
+    state[room] = state[room] || {n: 0, chain: []}
     score = 0
 
-    for word in words.slice(state.n)
+    for word, index in words.slice(state[room].n)
       pattern = new RegExp("\\b#{word}\\b", "i")
       match = text.match(pattern)
       if match?
+        if index > score then break
         text = text.replace(pattern, "*#{match[0]}*")
         score += 1
 
     if score > 0 and score < words.length
-      state.n += score
-      state.chain.push
+      state[room].n += score
+      state[room].chain.push
         userId: userId
         text: text
       robot.brain.set(stateKey, state)
 
-    if state.n >= words.length
-      resp = header + state.chain.map((c) => "@#{c.userId} said \"#{c.text}\"").join("\n")
+    if state[room].n >= words.length
+      resp = header + state[room].chain.map((c) => "@#{c.userId} said \"#{c.text}\"").join("\n")
       msg.send(resp)
-      robot.brain.set(stateKey, null)
+      robot.brain.set(stateKey[room], null)
