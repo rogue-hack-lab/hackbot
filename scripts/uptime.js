@@ -21,6 +21,11 @@ module.exports = function(robot) {
 
   if (devRoom) {
     robot.messageRoom(devRoom, "Coming back online now. Did you miss me?");
+
+    process.on('SIGQUIT', function () {
+      robot.messageRoom(devRoom, "Mr. Stark, I don't feel so good...");
+      setTimeout(function() { process.exit(0); }, 1000);
+    });
   }
 
   return robot.respond(/uptime/i, msg =>
