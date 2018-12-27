@@ -57,6 +57,38 @@ describe('warm fuzzies', () => {
     });
   });
 
+  context('someone giving out warm fuzzies to multiple users at once', function() {
+    beforeEach(function() {
+      return co(function*() {
+        this.room.robot.brain.set('warmFuzzy', {
+          '@a': 1,
+          '@b': 3,
+          '@c': 5,
+          '@d': 5
+        });
+        yield this.room.user.say('bob', '@a++ @b+++ @c++ @d--');
+      }.bind(this));
+    });
+
+    it("should adjust each recipient's warm fuzzies", function() {
+      const warmFuzzy = this.room.robot.brain.get('warmFuzzy');
+      expect(warmFuzzy['@a']).to.eql(2);
+      expect(warmFuzzy['@b']).to.eql(5);
+      expect(warmFuzzy['@c']).to.eql(6);
+      expect(warmFuzzy['@d']).to.eql(4);
+    });
+
+    it('should reply with the new warm fuzzy counts', function() {
+      expect(this.room.messages).to.eql([
+        ["bob", "@a++ @b+++ @c++ @d--"],
+        ["hubot", "@a's has increased to 2 Warm Fuzzies."],
+        ["hubot", "@b's has increased to 5 Warm Fuzzies."],
+        ["hubot", "@c's has increased to 6 Warm Fuzzies."],
+        ["hubot", "@d's has decreased to 4 Warm Fuzzies."]
+      ]);
+    });
+  });
+
   context('someone trying to give themself a warm fuzzy', function() {
     beforeEach(function() {
       return co(function*() {
