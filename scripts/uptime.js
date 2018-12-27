@@ -13,9 +13,15 @@
 // Author:
 //   whitman
 
+devRoom = process.env.DEV_ROOM;
+
 module.exports = function(robot) {
 
   const start = new Date().getTime();
+
+  if (devRoom) {
+    robot.messageRoom(devRoom, "Coming back online now. Did you miss me?");
+  }
 
   return robot.respond(/uptime/i, msg =>
     uptimeMe(msg, start, uptime => msg.send(uptime))
