@@ -10,7 +10,7 @@
 
 sendWFMessage = (robot, res, WFAmount) ->
   subject = res.match[1] or res.match[2]
-  if subject is "@#{res.message.user.id}"
+  if subject is "@#{res.message.user.name}"
     res.send 'Warm fuzzies are meant to be given to others.'
   else
     warmFuzzy = robot.brain.get('warmFuzzy') or {}
