@@ -10,21 +10,24 @@
 
 sendWFMessage = (robot, res, WFAmount) ->
   subject = res.match[1] or res.match[2]
-  warmFuzzy = robot.brain.get('warmFuzzy') or {}
-  oldWFAmount = parseInt(warmFuzzy[subject]) or 0
-  newWFAmount = oldWFAmount + WFAmount
-  WFText = 'not changed'
-  if Math.abs(newWFAmount) == 1
-    WFPlural = 'Warm Fuzzy'
+  if subject is "@#{res.message.user.id}"
+    res.send 'Warm fuzzies are meant to be given to others.'
   else
-    WFPlural = 'Warm Fuzzies'
-  warmFuzzy[subject] = newWFAmount
-  robot.brain.set 'warmFuzzy', warmFuzzy
-  if oldWFAmount < newWFAmount
-    WFText = 'increased to {amount}'.replace('{amount}', newWFAmount.toString())
-  else if oldWFAmount > newWFAmount
-    WFText = 'decreased to {amount}'.replace('{amount}', newWFAmount.toString())
-  res.send "#{subject}\'s has #{WFText} #{WFPlural}."
+    warmFuzzy = robot.brain.get('warmFuzzy') or {}
+    oldWFAmount = parseInt(warmFuzzy[subject]) or 0
+    newWFAmount = oldWFAmount + WFAmount
+    WFText = 'not changed'
+    if Math.abs(newWFAmount) == 1
+      WFPlural = 'Warm Fuzzy'
+    else
+      WFPlural = 'Warm Fuzzies'
+    warmFuzzy[subject] = newWFAmount
+    robot.brain.set 'warmFuzzy', warmFuzzy
+    if oldWFAmount < newWFAmount
+      WFText = 'increased to {amount}'.replace('{amount}', newWFAmount.toString())
+    else if oldWFAmount > newWFAmount
+      WFText = 'decreased to {amount}'.replace('{amount}', newWFAmount.toString())
+    res.send "#{subject}\'s has #{WFText} #{WFPlural}."
 
 module.exports = (robot) ->
   robot.respond /(Warm\s?Fuzz(y|ies|)|wf) list/i, (res) ->

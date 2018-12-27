@@ -57,6 +57,29 @@ describe('warm fuzzies', () => {
     });
   });
 
+  context('someone trying to give themself a warm fuzzy', function() {
+    beforeEach(function() {
+      return co(function*() {
+        this.room.robot.brain.set('warmFuzzy', {
+          '@alice': 1
+        });
+        yield this.room.user.say('alice', '@alice++');
+      }.bind(this));
+    });
+
+    it('should not increase their own warm fuzzies', function() {
+      const warmFuzzy = this.room.robot.brain.get('warmFuzzy');
+      expect(warmFuzzy['@alice']).to.eql(1);
+    });
+
+    it('should reply with the reason', function() {
+      expect(this.room.messages).to.eql([
+        ["alice", "@alice++"],
+        ["hubot", "Warm fuzzies are meant to be given to others."]
+      ]);
+    });
+  });
+
   context('asking for the warm fuzzies list', function() {
     beforeEach(function() {
       return co(function*() {
