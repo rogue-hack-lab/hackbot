@@ -13,9 +13,20 @@
 // Author:
 //   whitman
 
+devRoom = process.env.DEV_ROOM;
+
 module.exports = function(robot) {
 
   const start = new Date().getTime();
+
+  if (devRoom) {
+    robot.messageRoom(devRoom, "Coming back online now. Did you miss me?");
+
+    process.on('SIGQUIT', function () {
+      robot.messageRoom(devRoom, "Mr. Stark, I don't feel so good...");
+      setTimeout(function() { process.exit(0); }, 1000);
+    });
+  }
 
   return robot.respond(/uptime/i, msg =>
     uptimeMe(msg, start, uptime => msg.send(uptime))

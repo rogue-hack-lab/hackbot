@@ -1,5 +1,7 @@
 FROM node:alpine
 
+LABEL com.centurylinklabs.watchtower.stop-signal="SIGQUIT"
+
 COPY package.json ./
 RUN npm install --production
 
