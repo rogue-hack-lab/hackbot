@@ -80,6 +80,29 @@ describe('warm fuzzies', () => {
     });
   });
 
+  context('someone trying to give themself a cold scratchy', function() {
+    beforeEach(function() {
+      return co(function*() {
+        this.room.robot.brain.set('warmFuzzy', {
+          '@alice': 2
+        });
+        yield this.room.user.say('alice', '@alice--');
+      }.bind(this));
+    });
+
+    it('should not decrease their own warm fuzzies', function() {
+      const warmFuzzy = this.room.robot.brain.get('warmFuzzy');
+      expect(warmFuzzy['@alice']).to.eql(2);
+    });
+
+    it('should reply with the reason', function() {
+      expect(this.room.messages).to.eql([
+        ["alice", "@alice--"],
+        ["hubot", "Aww, don't be so hard on yourself."]
+      ]);
+    });
+  });
+
   context('asking for the warm fuzzies list', function() {
     beforeEach(function() {
       return co(function*() {
