@@ -8,8 +8,7 @@
 # Author:
 #   Adapted from HerrPfister hubot-karmabot
 
-sendWFMessage = (robot, res, WFAmount) ->
-  subject = res.match[1] or res.match[2]
+sendWFMessage = (robot, res, subject, WFAmount) ->
   if subject is "@#{res.message.user.name}"
     if WFAmount > 0
       res.send 'Warm fuzzies are meant to be given to others.'
@@ -40,12 +39,18 @@ module.exports = (robot) ->
       messages += "#{user} = #{wf}\n"
     res.send messages
 
-  robot.hear /\s*(@\w+)\s?[+]{2}[+]*/i, (res) ->
-    plusCount = (res.message.text.match(/[+]/g) or []).length
-    positiveWFAmount = if plusCount > 2 then plusCount - 1 else 1
-    sendWFMessage robot, res, positiveWFAmount
+  robot.hear /\s*@\w+\s?[+]{2}[+]*/ig, (res) ->
+    for command in res.match
+      submatch = command.match(/\s*(@\w+)\s?([+]{2}[+]*)/i)
+      subject = submatch[1]
+      plusCount = submatch[2].length
+      positiveWFAmount = if plusCount > 2 then plusCount - 1 else 1
+      sendWFMessage robot, res, subject, positiveWFAmount
 
-  robot.hear /\s*(@\w+)\s?[-]{2}[-]*/i, (res) ->
-    minusCount = (res.message.text.match(/[-]/g) or []).length
-    negativeWFAmount = -(if minusCount > 2 then minusCount - 1 else 1)
-    sendWFMessage robot, res, negativeWFAmount
+  robot.hear /\s*@\w+\s?[-]{2}[-]*/ig, (res) ->
+    for command in res.match
+      submatch = command.match(/\s*(@\w+)\s?([-]{2}[-]*)/i)
+      subject = submatch[1]
+      minusCount = submatch[2].length
+      negativeWFAmount = -(if minusCount > 2 then minusCount - 1 else 1)
+      sendWFMessage robot, res, subject, negativeWFAmount
