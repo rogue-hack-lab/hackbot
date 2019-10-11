@@ -1,5 +1,5 @@
 # Description:
-#   routs for making hacbot do things
+#   routes for making hackbot do things
 #
 # Notes:
 #   
