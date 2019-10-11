@@ -121,4 +121,4 @@ TBD
 
 ## Deployment
 
-A docker image of hackbot is automatically built off master and automatically deployed thanks to pcunning.
+A Docker image of hackbot is automatically built off master and automatically deployed thanks to pcunning.
