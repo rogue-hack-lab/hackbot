@@ -12,12 +12,13 @@
 module.exports = (robot) ->
 
   robot.hear ///
-            #^                       # this should be the start of the message
-            (hey|hi|hello|(wh?at)?'?s'?up\??|greetings) # greeting word possibilities
-            [\x20@]*                # optional space or @
+            #^                        # this should be the start of the message
+            (hey|hi|hello|(wh?at)?'?s'?\x20*up\??|greetings) # greeting word possibilities
+            ,?                        # optional comma
+            [\x20@]*                  # optional space or @
             (every(one|body)|guys|people|ppl|folks|friends|channel|#{robot.name})? # optional targeting of everyone or the robot
-            [\.\!\x20\:\)\(\-'DP]*  # punctuation and emoji and such
-            $                       # end of the message
+            [\\?\.\!\x20\:\)\(\-'DP]* # punctuation and emoji and such
+            $                         # end of the message
             ///i, (msg) ->
     msg.send "Hi @#{msg.message.user.name}!"
 
