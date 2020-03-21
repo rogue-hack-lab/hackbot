@@ -20,7 +20,7 @@
     "hubot-shipit": "^0.2.0",
     "hubot-slack": "^4.6.0",
     "moment": "^2.23.0",
-    "moment-timezone": "^0.5.23",
+    "moment-timezone": "^0.5.28",
     "os": "^0.1.1",
     "twilio": "^3.26.0"
   },
