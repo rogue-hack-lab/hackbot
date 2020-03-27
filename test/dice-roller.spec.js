@@ -1,7 +1,6 @@
 const Helper = require('hubot-test-helper');
 const helper = new Helper('../scripts/dice-roller.js');
 
-const co = require('co');
 const { expect } = require('chai');
 
 describe('hackbot dice roller', () => {
@@ -14,10 +13,8 @@ describe('hackbot dice roller', () => {
   });
 
   context('of a 1d20', function () {
-    beforeEach(function() {
-      return co(function*() {
-        yield this.room.user.say('josh', 'roll 2d20');
-      }.bind(this));
+    beforeEach(async function() {
+      await this.room.user.say('josh', 'roll 2d20');
     });
 
     it('hackbot should roll dice', function() {

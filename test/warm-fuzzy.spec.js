@@ -1,7 +1,6 @@
 const Helper = require('hubot-test-helper');
 const helper = new Helper('../scripts/warmFuzzy.coffee');
 
-const co = require('co');
 const { expect } = require('chai');
 
 describe('warm fuzzies', () => {
@@ -14,11 +13,9 @@ describe('warm fuzzies', () => {
   });
 
   context('someone giving another user a warm fuzzy', function() {
-    beforeEach(function() {
-      return co(function*() {
-        yield this.room.user.say('bob', 'Darth Vader really was the chosen one, in the end.');
-        yield this.room.user.say('alice', '@bob++');
-      }.bind(this));
+    beforeEach(async function() {
+      await this.room.user.say('bob', 'Darth Vader really was the chosen one, in the end.');
+      await this.room.user.say('alice', '@bob++');
     });
 
     it("should increase the recipient's warm fuzzies", function() {
@@ -36,11 +33,9 @@ describe('warm fuzzies', () => {
   });
 
   context('someone giving another user a cold scratchy', function() {
-    beforeEach(function() {
-      return co(function*() {
-        yield this.room.user.say('chad', 'Jar Jar is my favorite Star Trek character.');
-        yield this.room.user.say('alice', '@chad--');
-      }.bind(this));
+    beforeEach(async function() {
+      await this.room.user.say('chad', 'Jar Jar is my favorite Star Trek character.');
+      await this.room.user.say('alice', '@chad--');
     });
 
     it("should decrease the recipient's warm fuzzies", function() {
@@ -58,16 +53,14 @@ describe('warm fuzzies', () => {
   });
 
   context('someone giving out warm fuzzies to multiple users at once', function() {
-    beforeEach(function() {
-      return co(function*() {
-        this.room.robot.brain.set('warmFuzzy', {
-          '@a': 1,
-          '@b': 3,
-          '@c': 5,
-          '@d': 5
-        });
-        yield this.room.user.say('bob', '@a++ @b+++ @c++ @d--');
-      }.bind(this));
+    beforeEach(async function() {
+      this.room.robot.brain.set('warmFuzzy', {
+        '@a': 1,
+        '@b': 3,
+        '@c': 5,
+        '@d': 5
+      });
+      await this.room.user.say('bob', '@a++ @b+++ @c++ @d--');
     });
 
     it("should adjust each recipient's warm fuzzies", function() {
@@ -90,13 +83,11 @@ describe('warm fuzzies', () => {
   });
 
   context('someone trying to give themself a warm fuzzy', function() {
-    beforeEach(function() {
-      return co(function*() {
-        this.room.robot.brain.set('warmFuzzy', {
-          '@alice': 1
-        });
-        yield this.room.user.say('alice', '@alice++');
-      }.bind(this));
+    beforeEach(async function() {
+      this.room.robot.brain.set('warmFuzzy', {
+        '@alice': 1
+      });
+      await this.room.user.say('alice', '@alice++');
     });
 
     it('should not increase their own warm fuzzies', function() {
@@ -113,13 +104,11 @@ describe('warm fuzzies', () => {
   });
 
   context('someone trying to give themself a cold scratchy', function() {
-    beforeEach(function() {
-      return co(function*() {
-        this.room.robot.brain.set('warmFuzzy', {
-          '@alice': 2
-        });
-        yield this.room.user.say('alice', '@alice--');
-      }.bind(this));
+    beforeEach(async function() {
+      this.room.robot.brain.set('warmFuzzy', {
+        '@alice': 2
+      });
+      await this.room.user.say('alice', '@alice--');
     });
 
     it('should not decrease their own warm fuzzies', function() {
@@ -136,14 +125,12 @@ describe('warm fuzzies', () => {
   });
 
   context('asking for the warm fuzzies list', function() {
-    beforeEach(function() {
-      return co(function*() {
-        this.room.robot.brain.set('warmFuzzy', {
-          '@bob': 2,
-          '@alice': 3
-        });
-        yield this.room.user.say('bob', '@hubot warm fuzzy list');
-      }.bind(this));
+    beforeEach(async function() {
+      this.room.robot.brain.set('warmFuzzy', {
+        '@bob': 2,
+        '@alice': 3
+      });
+      await this.room.user.say('bob', '@hubot warm fuzzy list');
     });
 
     it("should reply with a list of each user's warm fuzzies", function() {
