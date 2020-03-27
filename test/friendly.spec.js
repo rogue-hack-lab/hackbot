@@ -1,7 +1,6 @@
 const Helper = require('hubot-test-helper');
 const helper = new Helper('../scripts/friendly.coffee');
 
-const co = require('co');
 const { expect } = require('chai');
 
 const hellos = [
@@ -24,10 +23,8 @@ describe('friendly', () => {
 
   hellos.forEach(function(hello) {
     context(`when someone says "${hello}"`, function() {
-      beforeEach(function() {
-        return co(function*() {
-          yield this.room.user.say('someone', hello);
-        }.bind(this));
+      beforeEach(async function() {
+        await this.room.user.say('someone', hello);
       });
 
       it("should greet back", function() {
