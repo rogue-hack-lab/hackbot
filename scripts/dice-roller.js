@@ -1,5 +1,5 @@
 module.exports = function(robot) {
-    robot.hear(/roll ([0-9]+)d([0-9]+)/i, (response) => {
+    robot.hear(/roll ([0-9]+) ?d([0-9]+)/i, (response) => {
         
         let dice = {
             count: response.match[1],
