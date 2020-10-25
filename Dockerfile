@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:14-alpine
 
 LABEL com.centurylinklabs.watchtower.stop-signal="SIGQUIT"
 
