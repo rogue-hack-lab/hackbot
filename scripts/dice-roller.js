@@ -1,3 +1,18 @@
+// Description:
+//   Dice Roller
+//
+// Dependencies:
+//   None
+//
+// Configuration:
+//   None
+//
+// Commands:
+//   hubot roll 1d20 - Rolls a d20
+//
+// Author:
+//   joshuabelden
+
 module.exports = function(robot) {
     robot.hear(/roll ([0-9]+) ?d([0-9]+)/i, (response) => {
         
