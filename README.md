@@ -14,6 +14,7 @@ upon have been set.
 
 You can start hackbot locally by running:
 
+    % npm install
     % bin/hubot
 
 You'll see some start up output and a prompt:
