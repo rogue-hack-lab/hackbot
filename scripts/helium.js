@@ -48,5 +48,24 @@ module.exports = function(robot) {
 
   });
 
+  robot.respond(/helium\s+hotspot\s+(\w.*)/i, async (res) => {
+    const term = res.match[1];
+    const list = await client.hotspots.search(term);
+    const hotspots = await list.take(1);
+    const hotspotWasFound = hotspots && hotspots.length > 0;
+
+    if (hotspotWasFound) {
+      const hotspot = hotspots[0];
+      const { address, name, rewardScale } = hotspot;
+      const { online } = hotspot.status;
+      const explorerUrl = `https://explorer.helium.com/hotspots/${address}`;
+
+      res.send(`Name: ${name}, status: ${online}, reward scale: ${rewardScale}, more info: ${explorerUrl}`);
+    } else {
+      res.send(`I don't know about that Helium hotspot.`);
+    }
+
+  });
+
   return robot;
 }
