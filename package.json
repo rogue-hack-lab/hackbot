@@ -5,6 +5,7 @@
   "author": "RHL",
   "description": "Hack all the things!",
   "dependencies": {
+    "@helium/http": "^3.48.0",
     "hubot": "^3.1.1",
     "hubot-auth": "^2.1.0",
     "hubot-diagnostics": "1.0.0",
